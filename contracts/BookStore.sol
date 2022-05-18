@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 pragma abicoder v2;
-import "./Owner.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract BookStore is Owner {
+contract BookStore is Ownable {
 
     struct Book{
         string title;
@@ -17,7 +17,7 @@ contract BookStore is Owner {
     mapping(address => uint) public borrows;
     
     
-    function AddBook(string memory _title, uint _id,  uint _copies) external isOwner {
+    function AddBook(string memory _title, uint _id,  uint _copies) external onlyOwner {
         bool exists; uint bookIndex;
         (exists, bookIndex) = _getById(_id);
         require(!exists,"book id already exists");
